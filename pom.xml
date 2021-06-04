@@ -20,6 +20,7 @@
 		<junit-jupiter.version>5.7.0</junit-jupiter.version>
 		<log4j.version>2.14.1</log4j.version>
 		<slf4j.version>1.7.30</slf4j.version>
+		<jackson.version>2.11.3</jackson.version>
 
 		<main.verticle>cz.kojotak.udemy.vertx.starter.MainVerticle</main.verticle>
 		<launcher.class>io.vertx.core.Launcher</launcher.class>
@@ -80,6 +81,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.version}</version>
 		</dependency>
 	</dependencies>
 
