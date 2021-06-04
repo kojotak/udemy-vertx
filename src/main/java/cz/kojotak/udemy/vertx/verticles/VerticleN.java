@@ -7,7 +7,9 @@ public class VerticleN extends AbstractVerticle {
 
 	@Override
 	public void start(final Promise<Void> promise) throws Exception {
-		System.out.println("start " + getClass().getName() + " in " + Thread.currentThread().getName());
+		System.out.println("start " + getClass().getName() 
+				+ " in " + Thread.currentThread().getName() 
+				+ " with config " + config().toString());
 		promise.complete();
 	}
 
