@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -27,11 +30,13 @@ public class MainVerticle extends AbstractVerticle {
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		vertx.createHttpServer().requestHandler(req->{
-			req.response()
-			   .putHeader("content-type", "text/plain")
-			   .end("hello from vertx web server");
-		}).listen(8888, http->{
+		Router router = Router.router(vertx);
+		AssetsRestApi.attach(router);
+		
+		vertx.createHttpServer()
+			.requestHandler(router)
+			.exceptionHandler( err-> LOG.error("http server error {}",err))
+			.listen(8888, http->{
 			if(http.succeeded()) {
 				startPromise.complete();
 				System.out.println("http started");
