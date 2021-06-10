@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.verticles;
+package cz.kojotak.udemy.vertx.starter.verticles;
 
 import java.util.UUID;
 

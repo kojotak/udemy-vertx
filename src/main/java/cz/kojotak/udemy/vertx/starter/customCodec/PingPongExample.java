@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.customCodec;
+package cz.kojotak.udemy.vertx.starter.customCodec;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

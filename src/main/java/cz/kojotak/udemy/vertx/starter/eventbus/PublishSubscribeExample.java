@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.eventbus;
+package cz.kojotak.udemy.vertx.starter.eventbus;
 
 import java.time.Duration;
 

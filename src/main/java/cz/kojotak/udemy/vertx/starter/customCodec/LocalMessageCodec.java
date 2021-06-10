@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.customCodec;
+package cz.kojotak.udemy.vertx.starter.customCodec;
 
 
 import io.vertx.core.buffer.Buffer;

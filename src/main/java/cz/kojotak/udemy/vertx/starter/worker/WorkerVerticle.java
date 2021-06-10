@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.worker;
+package cz.kojotak.udemy.vertx.starter.worker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.eventbus;
+package cz.kojotak.udemy.vertx.starter.eventbus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

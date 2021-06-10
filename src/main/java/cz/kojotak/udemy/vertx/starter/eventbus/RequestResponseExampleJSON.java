@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.eventbus;
+package cz.kojotak.udemy.vertx.starter.eventbus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
-public class RequestResponseExample {
+public class RequestResponseExampleJSON {
 
 	public static void main(String[] args) {
 		var vertx = Vertx.vertx();
@@ -24,7 +26,10 @@ public class RequestResponseExample {
 		public void start(Promise<Void> startPromise) throws Exception {
 			startPromise.complete();
 			var eventBus = vertx.eventBus();
-			var msg = "Hello world";
+			var msg = new JsonObject()
+					.put("msg","Hello world")
+					.put("version", 1)
+					;
 			LOG.debug("sending {}", msg);
 			eventBus.request(ADDRESS, //advice: use id of the sender
 					msg, //what to send
@@ -44,7 +49,7 @@ public class RequestResponseExample {
 			startPromise.complete();
 			vertx.eventBus().consumer(RequestVerticle.ADDRESS, msg->{
 				LOG.debug("received {}", msg.body());
-				msg.reply("msg received, thanks");
+				msg.reply(new JsonArray().add("one").add("two").add("three"));
 			});
 		}
 	}

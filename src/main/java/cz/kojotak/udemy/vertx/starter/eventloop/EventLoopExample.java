@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.eventloop;
+package cz.kojotak.udemy.vertx.starter.eventloop;
 
 import java.util.concurrent.TimeUnit;
 
