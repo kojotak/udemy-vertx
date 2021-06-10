@@ -36,6 +36,7 @@ public class MainVerticle extends AbstractVerticle {
 		Router router = Router.router(vertx);
 		router.route().failureHandler(failureHandler());
 		AssetsRestApi.attach(router);
+		QuotesRestApi.attach(router);
 		
 		vertx.createHttpServer()
 			.requestHandler(router)
