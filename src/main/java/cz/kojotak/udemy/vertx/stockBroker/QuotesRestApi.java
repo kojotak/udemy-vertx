@@ -1,6 +1,8 @@
 package cz.kojotak.udemy.vertx.stockBroker;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +15,17 @@ public class QuotesRestApi {
 
 	private static final Logger LOG = LoggerFactory.getLogger(QuotesRestApi.class);
 
+	static Map<String, Quote> cachedQuotes = new HashMap<>();
+	static {
+		AssetsRestApi.ASSETS.forEach( a$$ ->{
+			cachedQuotes.put(a$$, randomQuote(a$$));
+		});
+	}
+	
 	public static void attach(Router parent) {
 		parent.get("/quotes/:asset").handler(ctx->{
 			var assetParam = ctx.pathParam("asset");
-			JsonObject response = randomQuote(assetParam).toJsonObject();
+			JsonObject response = cachedQuotes.get(assetParam).toJsonObject();
 			LOG.debug("asset parameter {} and response {}", assetParam, response);
 			ctx.response().end(response.toBuffer());
 		});
