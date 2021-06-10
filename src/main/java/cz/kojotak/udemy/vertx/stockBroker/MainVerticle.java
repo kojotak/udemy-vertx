@@ -14,6 +14,7 @@ import io.vertx.ext.web.RoutingContext;
 
 public class MainVerticle extends AbstractVerticle {
 
+	public static final int PORT = 8888;
 	private static final Logger LOG = LoggerFactory.getLogger(MainVerticle.class);
 
 	public static void main(String[] args) {
@@ -39,7 +40,7 @@ public class MainVerticle extends AbstractVerticle {
 		vertx.createHttpServer()
 			.requestHandler(router)
 			.exceptionHandler( err-> LOG.error("http server error {}",err))
-			.listen(8888, http->{
+			.listen(PORT, http->{
 			if(http.succeeded()) {
 				startPromise.complete();
 				System.out.println("http started");
