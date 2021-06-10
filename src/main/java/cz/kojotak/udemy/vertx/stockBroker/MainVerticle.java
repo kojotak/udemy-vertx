@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Handler;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -31,6 +33,7 @@ public class MainVerticle extends AbstractVerticle {
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		Router router = Router.router(vertx);
+		router.route().failureHandler(failureHandler());
 		AssetsRestApi.attach(router);
 		
 		vertx.createHttpServer()
@@ -44,6 +47,16 @@ public class MainVerticle extends AbstractVerticle {
 				startPromise.fail("failed to start http server");
 			}
 		});
+	}
+
+	private Handler<RoutingContext> failureHandler() {
+		return h->{
+			if(h.response().ended()) {
+				return;
+			}
+			LOG.error("route error {}", h.failure());
+			h.response().end(new JsonObject().put("message","Something went wrong :(").toBuffer());
+		};
 	}
 
 }
