@@ -20,16 +20,8 @@ import cz.kojotak.udemy.vertx.stockBroker.cfg.ConfigLoader;
 
 
 @ExtendWith(VertxExtension.class)
-public class TestAssetsRestApi {
+public class TestAssetsRestApi extends AbstractRestApiTest {
 	
-  private static int TEST_PORT = 9999;
-
-  @BeforeEach
-  void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
-	  System.setProperty(ConfigLoader.SERVER_PORT, ""+TEST_PORT);
-	  vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
-  }
-
   @Test
   void returns_all_assets(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()

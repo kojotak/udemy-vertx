@@ -20,14 +20,7 @@ import io.vertx.junit5.VertxTestContext;
 
 
 @ExtendWith(VertxExtension.class)
-public class TestWatchListRestApi {
-  private static int TEST_PORT = 9797;
-
-  @BeforeEach
-  void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
-	  System.setProperty(ConfigLoader.SERVER_PORT, ""+TEST_PORT);
-	  vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
-  }
+public class TestWatchListRestApi extends AbstractRestApiTest {
 
   @Test
   void adds_and_returns_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
