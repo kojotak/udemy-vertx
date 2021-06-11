@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import cz.kojotak.udemy.vertx.stockBroker.api.AssetsRestApi;
 import cz.kojotak.udemy.vertx.stockBroker.api.QuotesRestApi;
 import cz.kojotak.udemy.vertx.stockBroker.api.WatchListRestApi;
+import cz.kojotak.udemy.vertx.stockBroker.cfg.BrokerConfig;
+import cz.kojotak.udemy.vertx.stockBroker.cfg.ConfigLoader;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
@@ -16,15 +18,17 @@ import io.vertx.ext.web.handler.BodyHandler;
 
 public class RestApiVerticle extends AbstractVerticle {
 
-	public static final int PORT = 8888;
 	private static final Logger LOG = LoggerFactory.getLogger(RestApiVerticle.class);
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		startHttpServerAndAttachRoutes(startPromise);
+		ConfigLoader.load(vertx).onFailure(startPromise::fail).onSuccess(cfg->{
+			LOG.info("retrieved cfg {}", cfg);
+			startHttpServerAndAttachRoutes(startPromise, cfg);
+		});
 	}
 
-	public void startHttpServerAndAttachRoutes(Promise<Void> startPromise) {
+	public void startHttpServerAndAttachRoutes(Promise<Void> startPromise, BrokerConfig cfg) {
 		Router router = Router.router(vertx);
 		router.route()
 			.handler(BodyHandler.create()) //not enabled by default
@@ -36,10 +40,10 @@ public class RestApiVerticle extends AbstractVerticle {
 		vertx.createHttpServer()
 			.requestHandler(router)
 			.exceptionHandler( err-> LOG.error("http server error {}",err))
-			.listen(PORT, http->{
+			.listen(cfg.getServerPort(), http->{
 			if(http.succeeded()) {
 				startPromise.complete();
-				System.out.println("http started");
+				System.out.println("http started on port " + cfg.getServerPort());
 			} else {
 				startPromise.fail("failed to start http server");
 			}

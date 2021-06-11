@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import cz.kojotak.udemy.vertx.stockBroker.cfg.BrokerConfig;
 import cz.kojotak.udemy.vertx.stockBroker.dto.Asset;
 import cz.kojotak.udemy.vertx.stockBroker.dto.WatchList;
 
@@ -31,7 +32,7 @@ public class TestWatchListRestApi {
 
   @Test
   void adds_and_returns_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
-	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(RestApiVerticle.PORT));
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(BrokerConfig.DEFAULT_PORT));
 	  var accountId = UUID.randomUUID();
 	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
 	  client.put("/account/watchlist/"+accountId.toString())
@@ -52,7 +53,7 @@ public class TestWatchListRestApi {
   
   @Test
   void adds_and_deletes_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
-	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(RestApiVerticle.PORT));
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(BrokerConfig.DEFAULT_PORT));
 	  var accountId = UUID.randomUUID();
 	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
 	  client.put("/account/watchlist/"+accountId.toString())

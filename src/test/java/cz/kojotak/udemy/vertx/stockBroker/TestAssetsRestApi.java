@@ -15,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import cz.kojotak.udemy.vertx.stockBroker.cfg.BrokerConfig;
+
 
 @ExtendWith(VertxExtension.class)
 public class TestAssetsRestApi {
@@ -27,7 +29,7 @@ public class TestAssetsRestApi {
   @Test
   void returns_all_assets(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(RestApiVerticle.PORT));
+			  .setDefaultPort(BrokerConfig.DEFAULT_PORT));
 	  client.get("/assets").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonArray();
 		System.out.println("response " + json);
