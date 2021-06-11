@@ -46,4 +46,26 @@ public class TestWatchListRestApi {
 		  return Future.succeededFuture();
 	  });
   }
+  
+  @Test
+  void adds_and_deletes_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(MainVerticle.PORT));
+	  var accountId = UUID.randomUUID();
+	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
+	  client.put("/account/watchlist/"+accountId.toString())
+	  	.sendJsonObject(watchList.toJsonObject())
+	  	.onComplete(testContext.succeeding(res->{
+	  		System.out.println(res.bodyAsString());
+			var json = res.bodyAsJsonObject();
+			assertEquals(200, res.statusCode());
+	  })).compose(next->{
+		  client.delete("/account/watchlist/"+accountId.toString())
+		  	.send().onComplete(testContext.succeeding(res->{
+		  		assertEquals(200, res.statusCode());
+		  		System.out.println("object was deleted");
+		  		testContext.completeNow();
+		  	}));
+		  return Future.succeededFuture();
+	  });
+  }
 }

@@ -38,7 +38,11 @@ public class WatchListRestApi {
 			ctx.response().end(json.toBuffer());
 		});
 		parent.delete("/account/watchlist/:accountId").handler(ctx->{
-			
+			var accountId = ctx.pathParam("accountId");
+			LOG.debug("{} for account {}", ctx.normalisedPath(), accountId);
+			WatchList deleted = watchListPerAccount.remove(UUID.fromString(accountId));
+			LOG.info("deleted {}, remaining {}", accountId, watchListPerAccount.size());
+			ctx.response().end(deleted.toJsonObject().toBuffer());
 		});
 	}
 }
