@@ -1,6 +1,8 @@
 package cz.kojotak.udemy.vertx.stockBroker;
 
+import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.junit5.VertxExtension;
@@ -31,6 +33,7 @@ public class TestAssetsRestApi {
 		System.out.println("response " + json);
 		assertEquals(200, res.statusCode());
 		assertTrue(json.encode().contains("AAPL"));
+		assertEquals(HttpHeaderValues.APPLICATION_JSON, res.getHeader(HttpHeaders.CONTENT_TYPE.toString()));
 		testContext.completeNow();
 	  }));
   }

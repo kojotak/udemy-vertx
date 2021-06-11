@@ -6,6 +6,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.netty.handler.codec.http.HttpHeaderValues;
+import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.Router;
 
@@ -20,7 +22,9 @@ public class AssetsRestApi {
 			JsonArray response = new JsonArray();
 			ASSETS.stream().map(Asset::new).forEach(response::add);
 			LOG.info("path {} responds with {}", ctx.pathParams(), response.encode());
-			ctx.response().end(response.toBuffer());
+			ctx.response()
+				.putHeader(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+				.end(response.toBuffer());
 		});
 	}
 }
