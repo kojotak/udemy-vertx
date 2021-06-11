@@ -14,20 +14,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import cz.kojotak.udemy.vertx.stockBroker.cfg.BrokerConfig;
+import cz.kojotak.udemy.vertx.stockBroker.cfg.ConfigLoader;
 
 
 @ExtendWith(VertxExtension.class)
 public class TestQuotesRestApi {
+	
+  private static int TEST_PORT = 9898;
 
   @BeforeEach
   void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
-    vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
+	  System.setProperty(ConfigLoader.SERVER_PORT, ""+TEST_PORT);
+	  vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
   }
 
   @Test
   void returns_quote_for_asset(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(BrokerConfig.DEFAULT_PORT));
+			  .setDefaultPort(TEST_PORT));
 	  client.get("/quotes/AMZN").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonObject();
 		System.out.println("response " + json);
@@ -40,7 +44,7 @@ public class TestQuotesRestApi {
   @Test
   void returns_not_found_for_unknown_asset(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(BrokerConfig.DEFAULT_PORT));
+			  .setDefaultPort(TEST_PORT));
 	  client.get("/quotes/UNKNOWN").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonObject();
 		System.out.println("response " + json);

@@ -4,14 +4,12 @@ import io.vertx.core.json.JsonObject;
 
 public class BrokerConfig {
 	
-	public static final int DEFAULT_PORT = 8888;
-
 	int serverPort;
 	
 	public static BrokerConfig from (JsonObject json) {
 		Integer port = json.getInteger(ConfigLoader.SERVER_PORT);
 		if(port==null) {
-			port = DEFAULT_PORT;
+			throw new RuntimeException("missing configuration for " + ConfigLoader.SERVER_PORT);
 		}
 		BrokerConfig cfg = new BrokerConfig();
 		cfg.setServerPort(port);
@@ -32,4 +30,10 @@ public class BrokerConfig {
 	}
 	
 	public BrokerConfig() {}
+
+	@Override
+	public String toString() {
+		return "BrokerConfig [serverPort=" + serverPort + "]";
+	}
+	
 }
