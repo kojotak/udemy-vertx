@@ -15,6 +15,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 public class ConfigLoader {
+	private static final String CONFIG_FILE = "application.yml";
+
 	public static String SERVER_PORT = "SERVER_PORT";
 	
 	static final List<String> EXPOSED_ENV_VARS=Arrays.asList(SERVER_PORT);
@@ -35,10 +37,17 @@ public class ConfigLoader {
 				.setType("sys")
 				.setConfig(new JsonObject().put("cache", false));
 		
+		var yamlStore = new ConfigStoreOptions()
+				.setType("file")
+				.setFormat("yaml")
+				.setConfig(new JsonObject().put("path", CONFIG_FILE));
+		
 		var retriever = ConfigRetriever.create(vertx,
 				new ConfigRetrieverOptions()
+					.addStore(yamlStore)
+					.addStore(propertyStore)
 					.addStore(envStore)
-					.addStore(propertyStore));
+					);
 		return retriever.getConfig().map(BrokerConfig::from);
 	}
 }

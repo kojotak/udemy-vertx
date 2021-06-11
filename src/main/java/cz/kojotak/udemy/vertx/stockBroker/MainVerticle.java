@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
@@ -28,15 +29,24 @@ public class MainVerticle extends AbstractVerticle {
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		vertx.deployVerticle(RestApiVerticle.class.getName(),
-				new DeploymentOptions()
-					.setInstances(processors())
-				)
+		vertx.deployVerticle(VersionInfoVerticle.class.getName())
 			.onFailure(startPromise::fail)
-			.onSuccess(id->{
-				LOG.info("deployed {} with id {}", RestApiVerticle.class.getSimpleName(), id);
-				startPromise.complete();
-			});
+			.onSuccess(id->LOG.info("deployed {} with id {}", RestApiVerticle.class.getSimpleName(), id))
+			.compose(next->deployRestApiVerticle(startPromise)
+			);
+		
+	}
+	
+	private Future<String> deployRestApiVerticle(Promise<Void> startPromise){
+		return vertx.deployVerticle(RestApiVerticle.class.getName(),
+				new DeploymentOptions()
+				.setInstances(processors())
+				)
+		.onFailure(startPromise::fail)
+		.onSuccess(id->{
+			LOG.info("deployed {} with id {}", RestApiVerticle.class.getSimpleName(), id);
+			startPromise.complete();
+		});		
 	}
 
 	private int processors() {
