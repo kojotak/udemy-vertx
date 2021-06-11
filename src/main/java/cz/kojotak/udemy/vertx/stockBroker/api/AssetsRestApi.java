@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.stockBroker;
+package cz.kojotak.udemy.vertx.stockBroker.api;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.kojotak.udemy.vertx.stockBroker.dto.Asset;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.json.JsonArray;
@@ -17,7 +18,7 @@ public class AssetsRestApi {
 	
 	public static final List<String> ASSETS = Arrays.asList("AAPL","AMZN","GOOG","MSFT","NFLX");
 
-	static void attach(Router router) {
+	public static void attach(Router router) {
 		router.get("/assets").handler( ctx->{
 			JsonArray response = new JsonArray();
 			ASSETS.stream().map(Asset::new).forEach(response::add);

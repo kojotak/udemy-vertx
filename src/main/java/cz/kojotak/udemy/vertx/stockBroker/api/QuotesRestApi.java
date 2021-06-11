@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.stockBroker;
+package cz.kojotak.udemy.vertx.stockBroker.api;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.kojotak.udemy.vertx.stockBroker.dto.Asset;
+import cz.kojotak.udemy.vertx.stockBroker.dto.Quote;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.internal.ThreadLocalRandom;
 import io.vertx.core.json.JsonObject;

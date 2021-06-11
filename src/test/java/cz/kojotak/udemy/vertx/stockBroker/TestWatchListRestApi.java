@@ -17,6 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import cz.kojotak.udemy.vertx.stockBroker.dto.Asset;
+import cz.kojotak.udemy.vertx.stockBroker.dto.WatchList;
+
 
 @ExtendWith(VertxExtension.class)
 public class TestWatchListRestApi {

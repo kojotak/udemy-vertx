@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.stockBroker;
+package cz.kojotak.udemy.vertx.stockBroker.dto;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.stockBroker;
+package cz.kojotak.udemy.vertx.stockBroker.api;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.kojotak.udemy.vertx.stockBroker.dto.WatchList;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;

@@ -3,6 +3,9 @@ package cz.kojotak.udemy.vertx.stockBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.kojotak.udemy.vertx.stockBroker.api.AssetsRestApi;
+import cz.kojotak.udemy.vertx.stockBroker.api.QuotesRestApi;
+import cz.kojotak.udemy.vertx.stockBroker.api.WatchListRestApi;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
 import io.vertx.core.Promise;
