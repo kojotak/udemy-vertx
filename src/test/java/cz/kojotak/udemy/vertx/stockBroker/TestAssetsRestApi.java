@@ -31,7 +31,7 @@ public class TestAssetsRestApi {
 		System.out.println("response " + json);
 		assertEquals(200, res.statusCode());
 		assertTrue(json.encode().contains("AAPL"));
-		testContext.completed();
+		testContext.completeNow();
 	  }));
   }
 }

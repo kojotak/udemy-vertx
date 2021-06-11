@@ -31,7 +31,19 @@ public class TestQuotesRestApi {
 		System.out.println("response " + json);
 		assertEquals(200, res.statusCode());
 		assertTrue(json.encode().contains("AMZN"));
-		testContext.completed();
+		testContext.completeNow();
+	  }));
+  }
+  
+  @Test
+  void returns_not_found_for_unknown_asset(Vertx vertx, VertxTestContext testContext) throws Throwable {
+	  var client = WebClient.create(vertx, new WebClientOptions()
+			  .setDefaultPort(MainVerticle.PORT));
+	  client.get("/quotes/UNKNOWN").send().onComplete(testContext.succeeding(res->{
+		var json = res.bodyAsJsonObject();
+		System.out.println("response " + json);
+		assertEquals(404, res.statusCode());
+		testContext.completeNow();
 	  }));
   }
 }
