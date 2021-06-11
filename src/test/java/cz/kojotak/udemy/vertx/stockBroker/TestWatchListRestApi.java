@@ -1,5 +1,6 @@
 package cz.kojotak.udemy.vertx.stockBroker;
 
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -27,17 +28,22 @@ public class TestWatchListRestApi {
 
   @Test
   void adds_and_returns_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
-	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(MainVerticle.PORT));
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(MainVerticle.PORT));
 	  var accountId = UUID.randomUUID();
 	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
-	  client.put("/account/watchlist/"+accountId)
+	  client.put("/account/watchlist/"+accountId.toString())
 	  	.sendJsonObject(watchList.toJsonObject())
 	  	.onComplete(testContext.succeeding(res->{
+	  		System.out.println(res.bodyAsString());
 			var json = res.bodyAsJsonObject();
-			System.out.println("response " + json);
 			assertEquals(200, res.statusCode());
-			testContext.completeNow();
-	  }));
+	  })).compose(next->{
+		  client.get("/account/watchlist/"+accountId.toString())
+		  	.send().onComplete(testContext.succeeding(res->{
+		  		assertEquals(200, res.statusCode());
+		  		testContext.completeNow();
+		  	}));
+		  return Future.succeededFuture();
+	  });
   }
 }

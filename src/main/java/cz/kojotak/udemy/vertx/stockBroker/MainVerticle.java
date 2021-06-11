@@ -11,6 +11,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
+import io.vertx.ext.web.handler.BodyHandler;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -34,9 +35,12 @@ public class MainVerticle extends AbstractVerticle {
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
 		Router router = Router.router(vertx);
-		router.route().failureHandler(failureHandler());
+		router.route()
+			.handler(BodyHandler.create()) //not enabled by default
+			.failureHandler(failureHandler());
 		AssetsRestApi.attach(router);
 		QuotesRestApi.attach(router);
+		WatchListRestApi.attach(router);
 		
 		vertx.createHttpServer()
 			.requestHandler(router)
