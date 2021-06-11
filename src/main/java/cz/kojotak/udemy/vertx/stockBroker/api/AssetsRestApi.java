@@ -25,6 +25,7 @@ public class AssetsRestApi {
 			LOG.info("path {} responds with {}", ctx.pathParams(), response.encode());
 			ctx.response()
 				.putHeader(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON)
+				.putHeader("my-header", "my-value")
 				.end(response.toBuffer());
 		});
 	}

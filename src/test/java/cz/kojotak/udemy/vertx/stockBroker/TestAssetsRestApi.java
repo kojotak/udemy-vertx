@@ -33,7 +33,8 @@ public class TestAssetsRestApi {
 		System.out.println("response " + json);
 		assertEquals(200, res.statusCode());
 		assertTrue(json.encode().contains("AAPL"));
-		assertEquals(HttpHeaderValues.APPLICATION_JSON, res.getHeader(HttpHeaders.CONTENT_TYPE.toString()));
+		assertEquals(HttpHeaderValues.APPLICATION_JSON.toString(), res.getHeader(HttpHeaders.CONTENT_TYPE.toString()));
+		assertEquals("my-value", res.getHeader("my-header"));
 		testContext.completeNow();
 	  }));
   }
