@@ -31,7 +31,7 @@ public class TestWatchListRestApi {
 
   @Test
   void adds_and_returns_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
-	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(MainVerticle.PORT));
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(RestApiVerticle.PORT));
 	  var accountId = UUID.randomUUID();
 	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
 	  client.put("/account/watchlist/"+accountId.toString())
@@ -52,7 +52,7 @@ public class TestWatchListRestApi {
   
   @Test
   void adds_and_deletes_watchlist_for_account(Vertx vertx, VertxTestContext testContext) throws Throwable {
-	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(MainVerticle.PORT));
+	  var client = WebClient.create(vertx, new WebClientOptions().setDefaultPort(RestApiVerticle.PORT));
 	  var accountId = UUID.randomUUID();
 	  var watchList = new WatchList(new Asset("AMZN"), new Asset("AAPL"));
 	  client.put("/account/watchlist/"+accountId.toString())

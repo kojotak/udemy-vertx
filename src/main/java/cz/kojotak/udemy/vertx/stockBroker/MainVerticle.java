@@ -3,22 +3,13 @@ package cz.kojotak.udemy.vertx.stockBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cz.kojotak.udemy.vertx.stockBroker.api.AssetsRestApi;
-import cz.kojotak.udemy.vertx.stockBroker.api.QuotesRestApi;
-import cz.kojotak.udemy.vertx.stockBroker.api.WatchListRestApi;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Handler;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.BodyHandler;
 
 public class MainVerticle extends AbstractVerticle {
 
-	public static final int PORT = 8888;
 	private static final Logger LOG = LoggerFactory.getLogger(MainVerticle.class);
 
 	public static void main(String[] args) {
@@ -37,35 +28,19 @@ public class MainVerticle extends AbstractVerticle {
 
 	@Override
 	public void start(Promise<Void> startPromise) throws Exception {
-		Router router = Router.router(vertx);
-		router.route()
-			.handler(BodyHandler.create()) //not enabled by default
-			.failureHandler(failureHandler());
-		AssetsRestApi.attach(router);
-		QuotesRestApi.attach(router);
-		WatchListRestApi.attach(router);
-		
-		vertx.createHttpServer()
-			.requestHandler(router)
-			.exceptionHandler( err-> LOG.error("http server error {}",err))
-			.listen(PORT, http->{
-			if(http.succeeded()) {
+		vertx.deployVerticle(RestApiVerticle.class.getName(),
+				new DeploymentOptions()
+					.setInstances(processors())
+				)
+			.onFailure(startPromise::fail)
+			.onSuccess(id->{
+				LOG.info("deployed {} with id {}", RestApiVerticle.class.getSimpleName(), id);
 				startPromise.complete();
-				System.out.println("http started");
-			} else {
-				startPromise.fail("failed to start http server");
-			}
-		});
+			});
 	}
 
-	private Handler<RoutingContext> failureHandler() {
-		return h->{
-			if(h.response().ended()) {
-				return;
-			}
-			LOG.error("route error {}", h.failure());
-			h.response().end(new JsonObject().put("message","Something went wrong :(").toBuffer());
-		};
+	private int processors() {
+		return Math.max(1,Runtime.getRuntime().availableProcessors());
 	}
 
 }

@@ -25,7 +25,7 @@ public class TestQuotesRestApi {
   @Test
   void returns_quote_for_asset(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(MainVerticle.PORT));
+			  .setDefaultPort(RestApiVerticle.PORT));
 	  client.get("/quotes/AMZN").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonObject();
 		System.out.println("response " + json);
@@ -38,7 +38,7 @@ public class TestQuotesRestApi {
   @Test
   void returns_not_found_for_unknown_asset(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(MainVerticle.PORT));
+			  .setDefaultPort(RestApiVerticle.PORT));
 	  client.get("/quotes/UNKNOWN").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonObject();
 		System.out.println("response " + json);

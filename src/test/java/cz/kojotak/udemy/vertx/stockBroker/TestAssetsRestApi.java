@@ -27,7 +27,7 @@ public class TestAssetsRestApi {
   @Test
   void returns_all_assets(Vertx vertx, VertxTestContext testContext) throws Throwable {
 	  var client = WebClient.create(vertx, new WebClientOptions()
-			  .setDefaultPort(MainVerticle.PORT));
+			  .setDefaultPort(RestApiVerticle.PORT));
 	  client.get("/assets").send().onComplete(testContext.succeeding(res->{
 		var json = res.bodyAsJsonArray();
 		System.out.println("response " + json);
