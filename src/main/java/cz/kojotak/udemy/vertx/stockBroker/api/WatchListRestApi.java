@@ -14,8 +14,9 @@ public class WatchListRestApi {
 	private static final HashMap<UUID, WatchList> watchListPerAccount = new HashMap<>();
 
 	public static void attach(Router parent) {
-		parent.get("/account/watchlist").handler(new GetWatchListHandler(watchListPerAccount));
-		parent.put("/account/watchlist/:accountId").handler(new PutWatchListHandler(watchListPerAccount));
-		parent.delete("/account/watchlist/:accountId").handler(new DeleteWatchListHandler(watchListPerAccount));
+		String PATH = "/account/watchlist/:accountId";
+		parent.get(PATH).handler(new GetWatchListHandler(watchListPerAccount));
+		parent.put(PATH).handler(new PutWatchListHandler(watchListPerAccount));
+		parent.delete(PATH).handler(new DeleteWatchListHandler(watchListPerAccount));
 	}
 }
