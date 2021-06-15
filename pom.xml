@@ -21,6 +21,8 @@
 		<log4j.version>2.14.1</log4j.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<jackson.version>2.11.3</jackson.version>
+		<h2.version>1.4.200</h2.version>
+		<flyway.version>7.3.2</flyway.version>
 
 		<main.verticle>cz.kojotak.udemy.vertx.starter.MainVerticle</main.verticle>
 		<launcher.class>io.vertx.core.Launcher</launcher.class>
@@ -101,6 +103,16 @@
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
 		    <version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>${h2.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.flywaydb</groupId>
+		    <artifactId>flyway-core</artifactId>
+		    <version>${flyway.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -8,6 +8,7 @@ public class BrokerConfig {
 	
 	private int serverPort;
 	private String version;
+	private DbConfig dbConfig;
 	
 	public static BrokerConfig from (JsonObject json) {
 		Integer port = json.getInteger(ConfigLoader.SERVER_PORT);
@@ -21,6 +22,7 @@ public class BrokerConfig {
 		BrokerConfig cfg = new BrokerConfig();
 		cfg.setServerPort(port);
 		cfg.setVersion(version);
+		cfg.setDbConfig(new DbConfig("jdbc:h2:~/stockBroker", "sa", "sa"));
 		return cfg;
 	}
 
@@ -46,5 +48,11 @@ public class BrokerConfig {
 	public String toString() {
 		return "BrokerConfig [serverPort=" + serverPort + ", version=" + version + "]";
 	}
-	
+
+	public DbConfig getDbConfig() {
+		return dbConfig;
+	}
+	public void setDbConfig(DbConfig dbConfig) {
+		this.dbConfig = dbConfig;
+	}	
 }
