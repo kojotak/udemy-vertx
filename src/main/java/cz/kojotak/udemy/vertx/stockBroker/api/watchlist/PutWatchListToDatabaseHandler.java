@@ -1,6 +1,9 @@
 package cz.kojotak.udemy.vertx.stockBroker.api.watchlist;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,25 +34,23 @@ public class PutWatchListToDatabaseHandler implements Handler<RoutingContext> {
 		var json = ctx.getBodyAsJson();
 		var watchlist = json.mapTo(WatchList.class);
 		
-		watchlist.getAssets().forEach(asset->{
-			var params = new HashMap<String,Object>();
-			params.put("account_id", accountId);
-			params.put("asset", asset.getName());
-			SqlTemplate
-				.forUpdate(dbPool,"insert into watchlist values (#{account_id},#{asset})")
-				.execute(params)
-				.onFailure(DbHandler.error(ctx, "failed to insert into wathclist"))
-				.onSuccess(result->{
-					if(!ctx.response().ended()) {
-						ctx.response()
-						.setStatusCode(HttpResponseStatus.NO_CONTENT.code())
-						.end();
-					}
-				});
-			
-		});
+		List<Map<String,Object>> parameterBatch = watchlist.getAssets().stream()
+			.map(asset->{
+				Map<String, Object> params = new HashMap<>();
+				params.put("account_id", accountId);
+				params.put("asset", asset.getName());
+				return params;
+			}).collect(Collectors.toList());
 		
-
+		SqlTemplate
+			.forUpdate(dbPool,"insert into watchlist values (#{account_id},#{asset})")
+			.executeBatch(parameterBatch)
+			.onFailure(DbHandler.error(ctx, "failed to insert into wathclist"))
+			.onSuccess(result->{
+				ctx.response()
+				.setStatusCode(HttpResponseStatus.NO_CONTENT.code())
+				.end();
+			});
 	}
 
 }
