@@ -1,0 +1,1 @@
+INSERT INTO quotes (id, bid, ask, last_price, volume, asset) VALUES (1, 15, 20, 17, 20, 'MSFT');

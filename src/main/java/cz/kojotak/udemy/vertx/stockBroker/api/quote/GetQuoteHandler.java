@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.kojotak.udemy.vertx.stockBroker.db.DbHandler;
 import cz.kojotak.udemy.vertx.stockBroker.dto.Asset;
 import cz.kojotak.udemy.vertx.stockBroker.dto.Quote;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -35,10 +36,7 @@ public class GetQuoteHandler implements Handler<RoutingContext> {
 		var assetParam = ctx.pathParam("asset");
 		var maybeQuote = Optional.ofNullable(cachedQuotes.get(assetParam));
 		if(maybeQuote.isEmpty()) {
-			ctx.response().setStatusCode(HttpResponseStatus.NOT_FOUND.code()).end(new JsonObject()
-					.put("message", "quote " + assetParam + " not available")
-					.put("path", ctx.normalisedPath())
-					.toBuffer());
+			DbHandler.error(ctx, "no assets found");
 			return;
 		} 
 		JsonObject response = maybeQuote.get().toJsonObject();
