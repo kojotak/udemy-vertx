@@ -25,8 +25,8 @@ public class FlywayMigration {
 	private static void execute(DbConfig cfg) {
 		Flyway flyway = Flyway.configure()
 			.dataSource(cfg.getUrl(), cfg.getUser(), cfg.getPass())
-			.schemas("broker")
-			.defaultSchema("broker")
+			.schemas(cfg.getSchema())
+			.defaultSchema(cfg.getSchema())
 			.load();
 		
 		LOG.debug("going to migrate DB: " + cfg);

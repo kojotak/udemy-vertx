@@ -56,12 +56,14 @@ public class RestApiVerticle extends AbstractVerticle {
 	}
 
 	private JDBCPool configureDbPool(BrokerConfig cfg) {
-		return JDBCPool.pool(vertx, 
-				new JDBCConnectOptions()
+		LOG.debug("configuring JDBCPool using {}", cfg.getDbConfig());
+		return JDBCPool.pool(vertx 
+				,new JDBCConnectOptions()
 					.setJdbcUrl(cfg.getDbConfig().getUrl())
 					.setUser(cfg.getDbConfig().getUser())
-					.setPassword(cfg.getDbConfig().getPass()),
-				new PoolOptions()
+					.setPassword(cfg.getDbConfig().getPass())
+					.setSchema(cfg.getDbConfig().getSchema())
+				,new PoolOptions()
 					.setMaxSize(4)
 					);
 	}

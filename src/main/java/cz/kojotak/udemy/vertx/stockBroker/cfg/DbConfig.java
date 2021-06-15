@@ -5,14 +5,16 @@ public class DbConfig {
 	String url;
 	String user;
 	String pass;
+	String schema;
 
 	public DbConfig() {	}
 	
-	public DbConfig(String url, String user, String pass) {
+	public DbConfig(String url, String user, String pass, String schema) {
 		super();
 		this.url = url;
 		this.user = user;
 		this.pass = pass;
+		this.schema = schema;
 	}
 
 
@@ -34,10 +36,18 @@ public class DbConfig {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
+	public String getSchema() {
+		return schema;
+	}
 
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
+	//ommit password from toString
 	@Override
 	public String toString() {
-		return "DbConfig [url=" + url + ", user=" + user + ", pass=***]";
+		return "DbConfig [url=" + url + ", user=" + user + ", schema=" + schema + "]";
 	}
-	
 }
