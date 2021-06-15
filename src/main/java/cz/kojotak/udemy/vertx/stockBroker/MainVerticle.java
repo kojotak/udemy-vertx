@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cz.kojotak.udemy.vertx.stockBroker.cfg.ConfigLoader;
+import cz.kojotak.udemy.vertx.stockBroker.db.FlywayMigration;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;

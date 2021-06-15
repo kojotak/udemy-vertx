@@ -1,4 +1,4 @@
-package cz.kojotak.udemy.vertx.stockBroker;
+package cz.kojotak.udemy.vertx.stockBroker.db;
 
 import java.util.Optional;
 

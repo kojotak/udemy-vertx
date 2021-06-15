@@ -22,7 +22,7 @@ public class BrokerConfig {
 		BrokerConfig cfg = new BrokerConfig();
 		cfg.setServerPort(port);
 		cfg.setVersion(version);
-		cfg.setDbConfig(new DbConfig("jdbc:h2:~/stockBroker", "sa", "sa"));
+		cfg.setDbConfig(new DbConfig());//TODO move DB config into yml as well
 		return cfg;
 	}
 
