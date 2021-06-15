@@ -15,6 +15,9 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.jdbcclient.JDBCConnectOptions;
+import io.vertx.jdbcclient.JDBCPool;
+import io.vertx.sqlclient.PoolOptions;
 
 public class RestApiVerticle extends AbstractVerticle {
 
@@ -29,11 +32,13 @@ public class RestApiVerticle extends AbstractVerticle {
 	}
 
 	public void startHttpServerAndAttachRoutes(Promise<Void> startPromise, BrokerConfig cfg) {
+		JDBCPool dbPool = configureDbPool(cfg);
+		
 		Router router = Router.router(vertx);
 		router.route()
 			.handler(BodyHandler.create()) //not enabled by default
 			.failureHandler(failureHandler());
-		AssetsRestApi.attach(router);
+		AssetsRestApi.attach(router, dbPool);
 		QuotesRestApi.attach(router);
 		WatchListRestApi.attach(router);
 		
@@ -48,6 +53,17 @@ public class RestApiVerticle extends AbstractVerticle {
 				startPromise.fail("failed to start http server");
 			}
 		});
+	}
+
+	private JDBCPool configureDbPool(BrokerConfig cfg) {
+		return JDBCPool.pool(vertx, 
+				new JDBCConnectOptions()
+					.setJdbcUrl(cfg.getDbConfig().getUrl())
+					.setUser(cfg.getDbConfig().getUser())
+					.setPassword(cfg.getDbConfig().getPass()),
+				new PoolOptions()
+					.setMaxSize(4)
+					);
 	}
 	
 	private Handler<RoutingContext> failureHandler() {
