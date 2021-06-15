@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import cz.kojotak.udemy.vertx.stockBroker.api.watchlist.DeleteWatchListHandler;
+import cz.kojotak.udemy.vertx.stockBroker.api.watchlist.DeleteWatchListToDatabaseHandler;
 import cz.kojotak.udemy.vertx.stockBroker.api.watchlist.GetWatchListFromDatabaseHandler;
 import cz.kojotak.udemy.vertx.stockBroker.api.watchlist.GetWatchListHandler;
 import cz.kojotak.udemy.vertx.stockBroker.api.watchlist.PutWatchListHandler;
@@ -25,5 +26,6 @@ public class WatchListRestApi {
 		String DB_PATH = "/db/account/watchlist/:accountId";
 		parent.get(DB_PATH).handler(new GetWatchListFromDatabaseHandler(dbPool));
 		parent.get(DB_PATH).handler(new PutWatchListToDatabaseHandler(dbPool));
+		parent.get(DB_PATH).handler(new DeleteWatchListToDatabaseHandler(dbPool));
 	}
 }
