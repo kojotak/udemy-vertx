@@ -31,7 +31,6 @@ public class BrokerConfig {
 		db.setUrl(json.getString(ConfigLoader.DB_URL));
 		db.setUser(json.getString(ConfigLoader.DB_USER));
 		db.setPass(json.getString(ConfigLoader.DB_PASS));
-		db.setSchema(json.getString(ConfigLoader.DB_SCHEMA));
 		return db;
 	}
 

@@ -62,7 +62,6 @@ public class RestApiVerticle extends AbstractVerticle {
 					.setJdbcUrl(cfg.getDbConfig().getUrl())
 					.setUser(cfg.getDbConfig().getUser())
 					.setPassword(cfg.getDbConfig().getPass())
-					.setSchema(cfg.getDbConfig().getSchema())
 				,new PoolOptions()
 					.setMaxSize(4)
 					);

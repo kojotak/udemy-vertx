@@ -27,8 +27,8 @@ public class GetAssetsFromDatabase implements Handler<RoutingContext> {
 
 	@Override
 	public void handle(RoutingContext ctx) {
-		dbPool
-			.query("SELECT a.value from broker.assets a")
+		dbPool 
+			.query("SELECT a.name from assets a")
 			.execute()
 			.onFailure( err->{
 				LOG.error("failed! ", err);
@@ -41,7 +41,7 @@ public class GetAssetsFromDatabase implements Handler<RoutingContext> {
 			.onSuccess(res->{
 				var response = new JsonArray();
 				res.forEach(row->{
-					response.add(row.getValue("value"));
+					response.add(row.getValue(0));
 				});
 				LOG.info("path {} responds with {}", ctx.pathParams(), response.encode());
 				ctx.response()

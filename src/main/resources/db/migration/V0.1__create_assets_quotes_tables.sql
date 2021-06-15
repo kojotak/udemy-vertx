@@ -1,5 +1,5 @@
 CREATE TABLE assets (
-	VALUE VARCHAR PRIMARY KEY
+	 name VARCHAR PRIMARY KEY
 );
 
 CREATE TABLE quotes (
@@ -9,7 +9,7 @@ CREATE TABLE quotes (
 	last_price NUMERIC,
 	volume NUMERIC,
 	asset VARCHAR,
-	FOREIGN KEY(asset) REFERENCES assets(value),
+	FOREIGN KEY(asset) REFERENCES assets(name),
 	CONSTRAINT last_price_is_positive CHECK (last_price > 0),
 	CONSTRAINT volume_is_positive_or_zero CHECK (volume >= 0)
 );

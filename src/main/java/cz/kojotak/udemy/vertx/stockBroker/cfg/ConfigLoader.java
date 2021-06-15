@@ -21,9 +21,8 @@ public class ConfigLoader {
 	public static String DB_URL = "DB_URL";
 	public static String DB_USER = "DB_USER";
 	public static String DB_PASS = "DB_PASS";
-	public static String DB_SCHEMA = "DB_SCHEMA";
 	
-	static final List<String> EXPOSED_ENV_VARS=Arrays.asList(SERVER_PORT, DB_URL, DB_USER, DB_PASS, DB_SCHEMA);
+	static final List<String> EXPOSED_ENV_VARS=Arrays.asList(SERVER_PORT, DB_URL, DB_USER, DB_PASS);
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ConfigLoader.class);
 

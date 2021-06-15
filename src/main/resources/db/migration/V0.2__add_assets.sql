@@ -1,2 +1,2 @@
-INSERT INTO assets (value) VALUES ('MSFT');
-INSERT INTO assets (value) VALUES ('ORCL');
+INSERT INTO assets (name) VALUES ('MSFT');
+INSERT INTO assets (name) VALUES ('ORCL');
