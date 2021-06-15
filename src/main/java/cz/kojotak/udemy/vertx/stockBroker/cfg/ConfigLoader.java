@@ -18,8 +18,11 @@ public class ConfigLoader {
 	private static final String CONFIG_FILE = "application.yml";
 
 	public static String SERVER_PORT = "SERVER_PORT";
+	public static String DB_URL = "DB_URL";
+	public static String DB_USER = "DB_USER";
+	public static String DB_PASS = "DB_PASS";
 	
-	static final List<String> EXPOSED_ENV_VARS=Arrays.asList(SERVER_PORT);
+	static final List<String> EXPOSED_ENV_VARS=Arrays.asList(SERVER_PORT, DB_URL, DB_USER, DB_PASS);
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ConfigLoader.class);
 

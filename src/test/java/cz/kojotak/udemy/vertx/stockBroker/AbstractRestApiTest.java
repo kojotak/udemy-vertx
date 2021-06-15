@@ -12,6 +12,9 @@ public class AbstractRestApiTest {
 	@BeforeEach
 	void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
 		System.setProperty(ConfigLoader.SERVER_PORT, "" + TEST_PORT);
+		System.setProperty(ConfigLoader.DB_URL, "jdbc:h2:./target/h2/stockBroker");
+		System.setProperty(ConfigLoader.DB_USER, "sa");
+		System.setProperty(ConfigLoader.DB_PASS, "sa");
 		vertx.deployVerticle(new MainVerticle(), testContext.succeeding(id -> testContext.completeNow()));
 	}
 }

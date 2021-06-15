@@ -6,9 +6,7 @@ public class DbConfig {
 	String user;
 	String pass;
 
-	public DbConfig() {
-		this("jdbc:h2:./target/h2/stockBroker", "sa", "sa");
-	}
+	public DbConfig() {	}
 	
 	public DbConfig(String url, String user, String pass) {
 		super();

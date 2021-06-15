@@ -22,8 +22,16 @@ public class BrokerConfig {
 		BrokerConfig cfg = new BrokerConfig();
 		cfg.setServerPort(port);
 		cfg.setVersion(version);
-		cfg.setDbConfig(new DbConfig());//TODO move DB config into yml as well
+		cfg.setDbConfig(parseDbConfig(json));
 		return cfg;
+	}
+
+	private static DbConfig parseDbConfig(JsonObject json) {
+		DbConfig db = new DbConfig();
+		db.setUrl(json.getString(ConfigLoader.DB_URL));
+		db.setUser(json.getString(ConfigLoader.DB_USER));
+		db.setPass(json.getString(ConfigLoader.DB_PASS));
+		return db;
 	}
 
 	public int getServerPort() {

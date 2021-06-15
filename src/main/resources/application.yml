@@ -1,2 +1,5 @@
 version: "1.0"
 SERVER_PORT: 7777
+DB_URL: "jdbc:h2:./target/h2/stockBroker"
+DB_USER: "sa"
+DB_PASS: "sa"
