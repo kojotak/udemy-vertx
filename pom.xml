@@ -23,6 +23,7 @@
 		<jackson.version>2.11.3</jackson.version>
 		<h2.version>1.4.200</h2.version>
 		<flyway.version>7.3.2</flyway.version>
+		<agroal.version>1.11</agroal.version>
 
 		<main.verticle>cz.kojotak.udemy.vertx.starter.MainVerticle</main.verticle>
 		<launcher.class>io.vertx.core.Launcher</launcher.class>
@@ -64,6 +65,11 @@
 		<dependency>
 			 <groupId>io.vertx</groupId>
 			 <artifactId>vertx-jdbc-client</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.agroal</groupId>
+		    <artifactId>agroal-pool</artifactId>
+		    <version>${agroal.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.vertx</groupId>
