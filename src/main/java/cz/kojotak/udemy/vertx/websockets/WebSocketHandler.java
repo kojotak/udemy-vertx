@@ -11,6 +11,7 @@ import io.vertx.core.http.WebSocketFrame;
 public class WebSocketHandler implements Handler<ServerWebSocket> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WebSocketHandler.class);
+	static final String PATH = "/ws/simple";
 	private final PriceBroadcast broadcast;
 	
 	public WebSocketHandler(Vertx vertx) {
@@ -19,13 +20,13 @@ public class WebSocketHandler implements Handler<ServerWebSocket> {
 
 	@Override
 	public void handle(ServerWebSocket ws) {
-		if("/ws/simple/rejected".equalsIgnoreCase(ws.path())) {
+		LOG.info("handling web socket connection {},{}", ws.path(), ws.textHandlerID());
+
+		if(!PATH.equalsIgnoreCase(ws.path())) {
 			ws.writeFinalTextFrame("wrong path, rejected");
 			closeMe(ws);
 			return;
 		}
-		
-		LOG.info("openning web socket connection {},{}", ws.path(), ws.textHandlerID());
 
 		ws.accept();
 		ws.frameHandler(received-> frameHandler(ws, received) );
