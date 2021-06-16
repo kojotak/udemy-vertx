@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sun.accessibility.internal.resources.accessibility;
-
 import cz.kojotak.udemy.vertx.stockBroker.db.DbHandler;
 import cz.kojotak.udemy.vertx.stockBroker.dto.WatchList;
 import io.netty.handler.codec.http.HttpResponseStatus;
