@@ -4,12 +4,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.ServerWebSocket;
 import io.vertx.core.http.WebSocketFrame;
 
 public class WebSocketHandler implements Handler<ServerWebSocket> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WebSocketHandler.class);
+	private final PriceBroadcast broadcast;
+	
+	public WebSocketHandler(Vertx vertx) {
+		this.broadcast = new PriceBroadcast(vertx);
+	}
 
 	@Override
 	public void handle(ServerWebSocket ws) {
@@ -23,9 +29,13 @@ public class WebSocketHandler implements Handler<ServerWebSocket> {
 
 		ws.accept();
 		ws.frameHandler(received-> frameHandler(ws, received) );
-		ws.endHandler(on -> LOG.error("closed {}", ws.textHandlerID()));
+		ws.endHandler(on -> {
+			LOG.error("closed {}", ws.textHandlerID());
+			broadcast.unregister(ws);
+		});
 		ws.exceptionHandler(err->LOG.error("failed",err));
 		ws.writeTextMessage("Connected");
+		broadcast.register(ws);
 	}
 
 	private void frameHandler(ServerWebSocket ws, WebSocketFrame received) {
