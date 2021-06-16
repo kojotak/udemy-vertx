@@ -7,6 +7,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
+//use browser and address: https://websocketking.com/
 public class MainVerticle extends AbstractVerticle {
 	private static final Logger LOG = LoggerFactory.getLogger(MainVerticle.class);
 
